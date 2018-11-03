@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'page-home',
@@ -7,7 +8,7 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public socket: Socket) {
 
   }
 
