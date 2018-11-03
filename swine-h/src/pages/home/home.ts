@@ -71,17 +71,8 @@ export class HomePage {
 
 	sendRequestAssist() {
 		this.socket.emit(this.socketEvents.requestAssist, this.getCurrentLocation(), (data) => {
-			
+
 		});
-	}
-
-	private async getCurrentLocation () {
-		var position = await this.geo.getCurrentPosition({ enableHighAccuracy: true });
-
-		return {
-			lat: position.coords.latitude,
-			long: position.coords.longitude
-		}
 	}
 
 	//Receive events
@@ -92,13 +83,21 @@ export class HomePage {
 
 
 	}
-
+ 
 
 	//map utils
 	private plotPositionOnMap(posicao) {
 
 	}
 
+	//GeoUtils
+	private async getCurrentLocation () {
+		var position = await this.geo.getCurrentPosition({ enableHighAccuracy: true });
 
+		return {
+			lat: position.coords.latitude,
+			long: position.coords.longitude
+		}
+	}
 
 }
