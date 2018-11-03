@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Geolocation } from '@ionic-native/geolocation';
+import { HTTP } from '@ionic-native/http';
 
 @Component({
 	selector: 'page-home',
@@ -14,20 +15,25 @@ export class HomePage {
 	private socketEvents = {
 		endOfTracking: "closingAssist",
 		sendMyPosition: "sendMyPosition",
-		receiverAnotherPosition: "receiverAnotherPosition",
+		receiveAnotherPosition: "receiveAnotherPosition",
 		catchAssist: "catchAssist",
 		requestAssist: "requestAssist",
-		receiverAssist: "receiverAssist",
-		receiverEndAssist: "receiverEndOfAssist"
+		receiveAssist: "receiveAssist",
+		receiveEndAssist: "receiveEndOfAssist"
 	}
 
-	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation) { }
+	url:string = "https://project-swine.herokuapp.com/";
+	pessoasProximasNecessitandoDeAjuda:Array<Object> ;
+
+
+	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation, public http: HTTP) { 
+		this.pessoasProximasNecessitandoDeAjuda = [];
+	}
 
 	requestAssist() {
 		this.openSocket();
 		this.sendRequestAssist();
 	}
-
 
 	//Socket Connection and configuration
 	openSocket() {
@@ -78,7 +84,11 @@ export class HomePage {
 		})
 	}
 
-	catchAssist(anotherSocketId: String){
+	assistPeople(socketId: String) {
+
+	}
+
+	private catchAssist(anotherSocketId: String){
 		this.socket.emit(this.socketEvents.catchAssist, anotherSocketId, () => {
 			this.currentAssistIsActive = true;
 		})
@@ -86,20 +96,21 @@ export class HomePage {
 
 	//Receive events
 	private startingReceiveLocationData() {
-		this.socket.on(this.socketEvents.receiverAnotherPosition, (data) => {
+		this.socket.on(this.socketEvents.receiveAnotherPosition, (data) => {
 			this.plotPositionOnMap(data);
 		});
 	}
 
 	finalizedAssist() {
-		this.socket.on(this.socketEvents.receiverEndAssist, data => {
+		this.socket.on('teste', data => {
 			this.currentAssistIsActive = false;
-			this.closeSocket();
+			//this.closeSocket();
+			console.log(data);
 		})
 	}
 
 	receiverAssist() {
-		this.socket.on(this.socketEvents.receiverAssist, data => {
+		this.socket.on(this.socketEvents.receiveAssist, data => {
 			this.currentAssistIsActive = true;
 			this.startingReceiveLocationData();
 		});
@@ -119,6 +130,19 @@ export class HomePage {
 			lat: position.coords.latitude,
 			long: position.coords.longitude
 		}
+	}
+
+	//List Peoples for Assist
+	getListOfPeoplesForAssistance() {
+		this.http.post(this.url + 'getPessoasProximas', this.getCurrentLocation(), {}).then(
+			data => {
+				if(data.status == 200 && data.data){
+					this.pessoasProximasNecessitandoDeAjuda = data.data;
+				} else {
+					console.log("tente novamente")
+				}
+			}
+		)
 	}
 
 }

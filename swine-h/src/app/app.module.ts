@@ -11,8 +11,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { Geolocation } from '@ionic-native/geolocation';
+import { HTTP } from '@ionic-native/http'
 
-const socketConfig: SocketIoConfig = {url: "http://localhost:3000", options: {} }
+const socketConfig: SocketIoConfig = {url: "https://project-swine.herokuapp.com/", options: {} }
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ const socketConfig: SocketIoConfig = {url: "http://localhost:3000", options: {} 
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Geolocation
+    Geolocation,
+    HTTP
   ]
 })
 export class AppModule {}
