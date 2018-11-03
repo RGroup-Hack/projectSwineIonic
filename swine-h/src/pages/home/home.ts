@@ -16,10 +16,18 @@ export class HomePage {
 		sendMyPosition: "sendMyPosition",
 		receiverAnotherPosition: "receiverAnotherPosition",
 		catchAssist: "catchAssist",
-		requestAssist: "requestAssist"
+		requestAssist: "requestAssist",
+		receiverAssist: "receiverAssist",
+		receiverEndAssist: "receiverEndOfAssist"
 	}
 
 	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation) { }
+
+	requestAssist() {
+		this.openSocket();
+		this.sendRequestAssist();
+	}
+
 
 	//Socket Connection and configuration
 	openSocket() {
@@ -30,7 +38,8 @@ export class HomePage {
 		this.socket.removeAllListeners();
 		this.socket.disconnect();
 	}
-
+	
+	//Emit events
 	sendEndOfTracking() {
 		this.socket.emit(this.socketEvents.endOfTracking, {
 			over: true
@@ -39,10 +48,16 @@ export class HomePage {
 		})
 	}
 
-	//Emit events
+
+	sendRequestAssist() {
+		this.socket.emit(this.socketEvents.requestAssist, this.getCurrentLocation(), (data) => {
+			this.receiverAssist();
+			this.startingEmitLocation()
+		});
+	}
+
 	startingEmitLocation() {
 		this.sendLocalizationInfo();
-		this.startingReceiveLocationData();
 	}
 
 	private sendLocalizationInfo() {
@@ -69,19 +84,25 @@ export class HomePage {
 		})
 	}
 
-	sendRequestAssist() {
-		this.socket.emit(this.socketEvents.requestAssist, this.getCurrentLocation(), (data) => {
-
-		});
-	}
-
 	//Receive events
 	private startingReceiveLocationData() {
 		this.socket.on(this.socketEvents.receiverAnotherPosition, (data) => {
 			this.plotPositionOnMap(data);
 		});
+	}
 
+	finalizedAssist() {
+		this.socket.on(this.socketEvents.receiverEndAssist, data => {
+			this.currentAssistIsActive = false;
+			this.closeSocket();
+		})
+	}
 
+	receiverAssist() {
+		this.socket.on(this.socketEvents.receiverAssist, data => {
+			this.currentAssistIsActive = true;
+			this.startingReceiveLocationData();
+		});
 	}
  
 
