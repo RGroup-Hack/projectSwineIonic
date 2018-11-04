@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Geolocation } from '@ionic-native/geolocation';
 import { HTTP } from '@ionic-native/http';
+import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import { StateControl } from '../../model/stateControl';
 
 @Component({
@@ -30,14 +31,24 @@ export class HomePage {
 
 	stateControl: StateControl;
 	
-	formDePara: {
-		de: "",
-		para: "",
-		informacoes: ""
+	public formDePara =  {
+		origem: {
+			address: "",
+			lat: 0,
+			long: 0
+		},
+		destino: "",
+		info: ""
 	}
 
 
-	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation, public http: HTTP) { 
+	constructor(public navCtrl: NavController, 
+		public socket: Socket, 
+		public geo: Geolocation, 
+		public http: HTTP,
+		public platform:Platform,
+		public geoCoder: NativeGeocoder) { 
+
 		this.pessoasProximasNecessitandoDeAjuda = [];
 		this.stateControl = new StateControl();
 	}
@@ -192,4 +203,29 @@ export class HomePage {
 		this.stateControl.setState("detalheAjuda");
 	}
 
+	public setOrigemAddressByLocation(){
+		if(this.platform.is('android') || this.platform.is('android')){
+			this.getCurrentLocation().then(posicao => {
+				this.geoCoder.reverseGeocode(posicao.latitude, posicao.longitude)
+				.then((data:NativeGeocoderReverseResult[]) => {
+					if(data && data[0]){
+						this.formDePara.origem.lat = posicao.latitude;
+						this.formDePara.origem.long = posicao.longitude;
+						let address = data[0];
+						this.formDePara.origem.address = address.thoroughfare + ', ' + address.subThoroughfare;
+					} else {
+						this.formDePara.origem.address = ""
+					}
+				})
+				.catch(error => {
+					console.log(error);
+					this.formDePara.origem.address = "";
+				})
+			})
+		}
+	}
+
+	public getLatLongFromAddress() {
+		
+	}
 }

@@ -12,6 +12,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { Geolocation } from '@ionic-native/geolocation';
 import { HTTP } from '@ionic-native/http'
+import { NativeGeocoder } from '@ionic-native/native-geocoder';
 
 const socketConfig: SocketIoConfig = {url: "https://project-swine.herokuapp.com/", options: {} }
 
@@ -37,7 +38,8 @@ const socketConfig: SocketIoConfig = {url: "https://project-swine.herokuapp.com/
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
-    HTTP
+    HTTP,
+    NativeGeocoder
   ]
 })
 export class AppModule {}
