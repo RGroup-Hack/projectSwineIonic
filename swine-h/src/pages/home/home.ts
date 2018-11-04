@@ -37,7 +37,11 @@ export class HomePage {
 			lat: 0,
 			long: 0
 		},
-		destino: "",
+		destino: {
+			address: "",
+			lat: 0,
+			long: 0
+		},
 		info: ""
 	}
 
@@ -225,7 +229,23 @@ export class HomePage {
 		}
 	}
 
-	public getLatLongFromAddress() {
-		
+	public async getLatLongFromAddress(address) {
+		let geocoder = await this.geoCoder.forwardGeocode(address);
+		if(geocoder && geocoder[0]){
+			return geocoder[0];
+		}
+	}
+
+	sendAssistRequest() {
+		this.getLatLongFromAddress(this.formDePara.origem.address).then(data => {
+			this.formDePara.origem.lat = Number.parseFloat(data.latitude);
+			this.formDePara.origem.long = Number.parseFloat(data.longitude);
+
+			this.getLatLongFromAddress(this.formDePara.destino.address).then(data => {
+				this.formDePara.destino.lat = Number.parseFloat(data.latitude);
+				this.formDePara.destino.long = Number.parseFloat(data.longitude);
+				
+			})
+		});
 	}
 }
