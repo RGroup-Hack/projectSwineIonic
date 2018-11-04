@@ -173,8 +173,8 @@ export class HomePage {
 	private contadorQueroAjudar = 0;
 	receiveListOfPeoples() {
 		this.socket.on(`${this.socketEvents.findPeople}${this.posFix}`, data => {	
-			// console.log(data)
 			if(data.list){
+				console.log(data.list);
 				
 				this.pessoasProximasNecessitandoDeAjuda = data.list;
 			} else {
