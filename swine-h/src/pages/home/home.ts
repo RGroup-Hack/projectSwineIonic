@@ -153,4 +153,10 @@ export class HomePage {
 		});
 	}
 
+	queroAjudar() {
+		this.openSocket();
+		this.receiveListOfPeoples();
+		this.getListOfPeopleToAssist();
+	}
+
 }
