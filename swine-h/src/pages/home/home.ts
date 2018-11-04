@@ -45,6 +45,7 @@ export class HomePage {
 		info: ""
 	}
 
+	private mapURL = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyD1uDuJo8_qV0zPNZLqizEDGUcRpYGRNTc";
 
 	constructor(public navCtrl: NavController, 
 		public socket: Socket, 
@@ -55,6 +56,11 @@ export class HomePage {
 
 		this.pessoasProximasNecessitandoDeAjuda = [];
 		this.stateControl = new StateControl();
+	}
+
+	createAssist() {
+		this.setOrigemAddressByLocation();
+		this.stateControl.setState("criarAjuda");
 	}
 
 	requestAssist() {
@@ -171,9 +177,10 @@ export class HomePage {
 	private contadorQueroAjudar = 0;
 	receiveListOfPeoples() {
 		this.socket.on(`${this.socketEvents.findPeople}${this.posFix}`, data => {	
-			if(data){
-				this.pessoasProximasNecessitandoDeAjuda = data;
-				console.log(data)
+			// console.log(data)
+			if(data.list){
+				
+				this.pessoasProximasNecessitandoDeAjuda = data.list;
 			} else {
 				this.pessoasProximasNecessitandoDeAjuda = [];
 			}
