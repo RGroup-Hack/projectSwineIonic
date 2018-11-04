@@ -89,7 +89,7 @@ export class HomePage {
 
 
 	sendRequestAssist() {
-		this.socket.emit(this.socketEvents.requestAssist, this.getCurrentLocation(), (data) => {
+		this.socket.emit(this.socketEvents.requestAssist, this.formDePara, (data) => {
 			this.receiverAssist();
 			this.startingEmitLocation()
 		});
@@ -252,6 +252,7 @@ export class HomePage {
 				this.formDePara.destino.lat = Number.parseFloat(data.latitude);
 				this.formDePara.destino.long = Number.parseFloat(data.longitude);
 				
+				this.requestAssist()
 			})
 		});
 	}
