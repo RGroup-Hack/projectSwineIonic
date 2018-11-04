@@ -7,12 +7,99 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content style="background-color: lightgray;">
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <!-- <iframe style="z-index: 0; border: none;" width="100%" height="100%" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyD1uDuJo8_qV0zPNZLqizEDGUcRpYGRNTc&origin=Oslo+Norway&destination=Telemark+Norway"></iframe> -->
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <div *ngIf="stateControl.isBotoesIniciais" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%;">
+    <button ion-button secondary round large style="min-width: 210px; margin-bottom: 20px;">Quero Ajudar</button>
+    <button ion-button secondary round large (click)="requestAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
+      de Ajuda!</button>
+  </div>
+
+  <div *ngIf="stateControl.isCardListaPessoas" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
+    <div style="margin-bottom: 0; border-radius: 8px 8px 0px 0px; background-color: white; padding: 8px 12px;">
+      <ion-list inset>
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="img/avatar-finn.png">
+          </ion-avatar>
+          <h2>Cher</h2>
+          <p>Ugh. As if.</p>
+          <ion-icon name="pin" color="green" item-end></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="img/avatar-finn.png">
+          </ion-avatar>
+          <h2>Cher</h2>
+          <p>Ugh. As if.</p>
+          <ion-icon name="pin" color="blue" item-end></ion-icon>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div *ngIf="stateControl.isCardDetalhePessoa" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
+    <div style="margin-bottom: 0; border-radius: 8px 8px 0px 0px; background-color: white; padding: 8px 12px;">
+      <ion-list>
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="img/avatar-finn.png" style="width: 72px; height: 72px;">
+          </ion-avatar>
+          <h2>Cher</h2>
+          <p>Ugh. As if.</p>
+          <ion-icon name="pin" color="green" item-end></ion-icon>
+        </ion-item>
+        <ion-item>
+          <h2>De</h2>
+          <p>Lorem, ipsum dolor, 95</p>
+        </ion-item>
+        <ion-item>
+          <h2>Até</h2>
+          <p>Lorem ipsum dolor sit, 48</p>
+        </ion-item>
+        <ion-item>
+          <h2>Informações</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, nisi.</p>
+        </ion-item>
+      </ion-list>
+      <button ion-button secondary round large style="min-width: 210px; margin-bottom: 20px;">Ajudar!!!</button>
+    </div>
+  </div>
+
+  <div *ngIf="stateControl.isCardOpcoesAjudante" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
+    <div style="margin-bottom: 0; border-radius: 8px 8px 0px 0px; background-color: white; padding-top: 10px;">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-row style="justify-content: center;">
+              <ion-icon name="call" style="font-size: 24px;"></ion-icon>
+            </ion-row>
+            <ion-row style="justify-content: center;">
+              <p>Ligar</p>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row style="justify-content: center;">
+              <ion-icon name="text" style="font-size: 24px;"></ion-icon>
+            </ion-row>
+            <ion-row style="justify-content: center;">
+              <p>Menssagem</p>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row style="justify-content: center;">
+              <ion-icon name="navigate" style="font-size: 24px;"></ion-icon>
+            </ion-row>
+            <ion-row style="justify-content: center;">
+              <p>Rota</p>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
 </ion-content>

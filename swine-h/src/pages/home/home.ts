@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Geolocation } from '@ionic-native/geolocation';
 import { HTTP } from '@ionic-native/http';
+import { StateControl } from '../../model/stateControl';
 
 @Component({
 	selector: 'page-home',
@@ -26,9 +27,11 @@ export class HomePage {
 	url:string = "https://project-swine.herokuapp.com/";
 	pessoasProximasNecessitandoDeAjuda:Array<Object> ;
 
+	stateControl: StateControl;
 
 	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation, public http: HTTP) { 
 		this.pessoasProximasNecessitandoDeAjuda = [];
+		this.stateControl = new StateControl();
 	}
 
 	requestAssist() {
