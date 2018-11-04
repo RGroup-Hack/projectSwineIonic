@@ -25,14 +25,14 @@ export class HomePage {
 		findPeople: "findPeople"
 	}
 
-	url:string = "https://project-swine.herokuapp.com/";
-	pessoasProximasNecessitandoDeAjuda:Array<any> ;
+	url: string = "https://project-swine.herokuapp.com/";
+	pessoasProximasNecessitandoDeAjuda: Array<any>;
 	detalhePessoaNecessitandoAjuda: any;
 
 	stateControl: StateControl;
-	
-	public formDePara =  {
-		name:"Jéssica Castro",
+
+	public formDePara = {
+		name: "Jéssica Castro",
 		origem: {
 			address: "",
 			lat: 0,
@@ -48,12 +48,12 @@ export class HomePage {
 
 	private mapURL = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyD1uDuJo8_qV0zPNZLqizEDGUcRpYGRNTc";
 
-	constructor(public navCtrl: NavController, 
-		public socket: Socket, 
-		public geo: Geolocation, 
+	constructor(public navCtrl: NavController,
+		public socket: Socket,
+		public geo: Geolocation,
 		public http: HTTP,
-		public platform:Platform,
-		public geoCoder: NativeGeocoder) { 
+		public platform: Platform,
+		public geoCoder: NativeGeocoder) {
 
 		this.pessoasProximasNecessitandoDeAjuda = [];
 		this.stateControl = new StateControl();
@@ -74,11 +74,11 @@ export class HomePage {
 		this.socket.connect();
 	}
 
-	closeSocket () {
+	closeSocket() {
 		this.socket.removeAllListeners();
 		this.socket.disconnect();
 	}
-	
+
 	//Emit events
 	sendEndOfTracking() {
 		this.socket.emit(this.socketEvents.endOfTracking, {
@@ -124,7 +124,7 @@ export class HomePage {
 		this.catchAssist(socketId);
 	}
 
-	private catchAssist(anotherSocketId: String){
+	private catchAssist(anotherSocketId: String) {
 		this.socket.emit(this.socketEvents.catchAssist, anotherSocketId, () => {
 			this.currentAssistIsActive = true;
 		})
@@ -151,7 +151,7 @@ export class HomePage {
 			this.startingReceiveLocationData();
 		});
 	}
- 
+
 
 	//map utils
 	private plotPositionOnMap(posicao) {
@@ -159,7 +159,7 @@ export class HomePage {
 	}
 
 	//GeoUtils
-	private async getCurrentLocation () {
+	private async getCurrentLocation() {
 		var position = await this.geo.getCurrentPosition({ enableHighAccuracy: true });
 
 		return {
@@ -180,24 +180,24 @@ export class HomePage {
 
 	private contadorQueroAjudar = 0;
 	receiveListOfPeoples() {
-		this.socket.on(`${this.socketEvents.findPeople}${this.posFix}`, data => {	
-			if(data.list){
+		this.socket.on(`${this.socketEvents.findPeople}${this.posFix}`, data => {
+			if (data.list) {
 				console.log(data.list);
-				
+
 				this.pessoasProximasNecessitandoDeAjuda = data.list;
 			} else {
 				this.pessoasProximasNecessitandoDeAjuda = [];
 			}
 
-			if(this.contadorQueroAjudar < 10) {
-				this.contadorQueroAjudar++;
-				setTimeout( () => {
+			setTimeout(() => {
+				if (this.contadorQueroAjudar < 10) {
+					this.contadorQueroAjudar++;
 					this.eventsQueroAjudar();
-				}, 3000);
-			} else {
-				this.contadorQueroAjudar = 0;
-			}
-		
+				} else {
+					this.contadorQueroAjudar = 0;
+				}
+			}, 3000);
+
 		});
 	}
 
@@ -219,31 +219,31 @@ export class HomePage {
 		this.stateControl.setState("detalheAjuda");
 	}
 
-	public setOrigemAddressByLocation(){
-		if(this.platform.is('android') || this.platform.is('android')){
+	public setOrigemAddressByLocation() {
+		if (this.platform.is('android') || this.platform.is('android')) {
 			this.getCurrentLocation().then(posicao => {
 				this.geoCoder.reverseGeocode(posicao.latitude, posicao.longitude)
-				.then((data:NativeGeocoderReverseResult[]) => {
-					if(data && data[0]){
-						this.formDePara.origem.lat = posicao.latitude;
-						this.formDePara.origem.long = posicao.longitude;
-						let address = data[0];
-						this.formDePara.origem.address = address.thoroughfare + ', ' + address.subThoroughfare;
-					} else {
-						this.formDePara.origem.address = ""
-					}
-				})
-				.catch(error => {
-					console.log(error);
-					this.formDePara.origem.address = "";
-				})
+					.then((data: NativeGeocoderReverseResult[]) => {
+						if (data && data[0]) {
+							this.formDePara.origem.lat = posicao.latitude;
+							this.formDePara.origem.long = posicao.longitude;
+							let address = data[0];
+							this.formDePara.origem.address = address.thoroughfare + ', ' + address.subThoroughfare;
+						} else {
+							this.formDePara.origem.address = ""
+						}
+					})
+					.catch(error => {
+						console.log(error);
+						this.formDePara.origem.address = "";
+					})
 			})
 		}
 	}
 
 	public async getLatLongFromAddress(address) {
 		let geocoder = await this.geoCoder.forwardGeocode(address);
-		if(geocoder && geocoder[0]){
+		if (geocoder && geocoder[0]) {
 			return geocoder[0];
 		}
 	}
@@ -256,7 +256,7 @@ export class HomePage {
 			this.getLatLongFromAddress(this.formDePara.destino.address).then(data => {
 				this.formDePara.destino.lat = Number.parseFloat(data.latitude);
 				this.formDePara.destino.long = Number.parseFloat(data.longitude);
-				
+
 				this.requestAssist()
 			})
 		});
