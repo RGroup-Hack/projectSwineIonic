@@ -11,7 +11,7 @@ import { HTTP } from '@ionic-native/http';
 export class HomePage {
 
 	private currentAssistIsActive: boolean = false;
-	
+	private posFix = "Response";
 	private socketEvents = {
 		endOfTracking: "closingAssist",
 		sendMyPosition: "sendMyPosition",
@@ -19,7 +19,8 @@ export class HomePage {
 		catchAssist: "catchAssist",
 		requestAssist: "requestAssist",
 		receiveAssist: "receiveAssist",
-		receiveEndAssist: "receiveEndOfAssist"
+		receiveEndAssist: "receiveEndOfAssist",
+		findPeople: "findPeople"
 	}
 
 	url:string = "https://project-swine.herokuapp.com/";
@@ -85,7 +86,8 @@ export class HomePage {
 	}
 
 	assistPeople(socketId: String) {
-
+		this.openSocket();
+		this.catchAssist(socketId);
 	}
 
 	private catchAssist(anotherSocketId: String){
@@ -127,22 +129,25 @@ export class HomePage {
 		var position = await this.geo.getCurrentPosition({ enableHighAccuracy: true });
 
 		return {
-			lat: position.coords.latitude,
-			long: position.coords.longitude
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude
 		}
 	}
 
 	//List Peoples for Assist
-	getListOfPeoplesForAssistance() {
-		this.http.post(this.url + 'getPessoasProximas', this.getCurrentLocation(), {}).then(
-			data => {
-				if(data.status == 200 && data.data){
-					this.pessoasProximasNecessitandoDeAjuda = data.data;
-				} else {
-					console.log("tente novamente")
-				}
+	getListOfPeopleToAssist() {
+		this.socket.emit(this.socketEvents.findPeople, {
+			name: "Helena Dutra",
+			position: this.getCurrentLocation()
+		});
+	}
+
+	receiveListOfPeoples() {
+		this.socket.on(`${this.socketEvents.findPeople}${this.posFix}`, data => {	
+			if(data){
+				this.pessoasProximasNecessitandoDeAjuda = data;
 			}
-		)
+		});
 	}
 
 }
