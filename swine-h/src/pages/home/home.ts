@@ -25,7 +25,8 @@ export class HomePage {
 	}
 
 	url:string = "https://project-swine.herokuapp.com/";
-	pessoasProximasNecessitandoDeAjuda:Array<Object> ;
+	pessoasProximasNecessitandoDeAjuda:Array<any> ;
+	detalhePessoaNecessitandoAjuda: any;
 
 	stateControl: StateControl;
 	
@@ -175,12 +176,20 @@ export class HomePage {
 
 	queroAjudar() {
 		this.openSocket();
-		
+		this.eventsQueroAjudar();
 	}
 
 	private eventsQueroAjudar() {
 		this.receiveListOfPeoples();
 		this.getListOfPeopleToAssist();
+		this.stateControl.setState("queroAjudar")
+	}
+
+	detalhesAjuda(socketId) {
+		this.detalhePessoaNecessitandoAjuda = this.pessoasProximasNecessitandoDeAjuda.filter((e, i) => {
+			return e.socketId == socketId;
+		})
+		this.stateControl.setState("detalheAjuda");
 	}
 
 }

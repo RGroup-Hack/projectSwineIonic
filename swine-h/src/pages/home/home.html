@@ -12,57 +12,64 @@
   <!-- <iframe style="z-index: 0; border: none;" width="100%" height="100%" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyD1uDuJo8_qV0zPNZLqizEDGUcRpYGRNTc&origin=Oslo+Norway&destination=Telemark+Norway"></iframe> -->
 
   <div *ngIf="stateControl.isBotoesIniciais" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%;">
-    <button ion-button secondary round large style="min-width: 210px; margin-bottom: 20px;">Quero Ajudar</button>
+    <button ion-button secondary round large (click)="queroAjudar()" style="min-width: 210px; margin-bottom: 20px;">Quero Ajudar</button>
     <button ion-button secondary round large (click)="requestAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
       de Ajuda!</button>
+  </div>
+
+  <div style="height: 100%; width: 100%; background: #00BCD4;">
+    <label>De</label>
+    <input type="text" value="" >
+    <label>Até</label>
+    <input >
+    <label>Informações</label>
+    <textarea></textarea>
+    <button ion-button secondary round large (click)="requestAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
+        de Ajuda!</button>
   </div>
 
   <div *ngIf="stateControl.isCardListaPessoas" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
     <div style="margin-bottom: 0; border-radius: 8px 8px 0px 0px; background-color: white; padding: 8px 12px;">
       <ion-list inset>
-        <ion-item>
-          <ion-avatar item-start>
-            <img src="img/avatar-finn.png">
-          </ion-avatar>
-          <h2>Cher</h2>
-          <p>Ugh. As if.</p>
-          <ion-icon name="pin" color="green" item-end></ion-icon>
+        <ion-item *ngIf="pessoasProximasNecessitandoDeAjuda.length == 0">
+          <p>Pesquisando...</p>
         </ion-item>
 
-        <ion-item>
+        <ion-item *ngFor="let pessoa in pessoasProximasNecessitandoDeAjuda" (click)="">
           <ion-avatar item-start>
-            <img src="img/avatar-finn.png">
+            <img [src]="pessoa.avatar"> <!-- URL -->
+            <!-- <img src="pessoa.avatar"> base64 -->
           </ion-avatar>
-          <h2>Cher</h2>
-          <p>Ugh. As if.</p>
-          <ion-icon name="pin" color="blue" item-end></ion-icon>
+          <h2>{{pessoa.name}}</h2>
+          <p>{{pessoa.deficiencia}}</p>
+          <ion-icon name="pin" item-end></ion-icon>
         </ion-item>
       </ion-list>
     </div>
   </div>
 
-  <div *ngIf="stateControl.isCardDetalhePessoa" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
+  <div *ngIf="stateControl.isCardDetalhePessoa && detalhePessoaNecessitandoAjuda != null" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
     <div style="margin-bottom: 0; border-radius: 8px 8px 0px 0px; background-color: white; padding: 8px 12px;">
       <ion-list>
         <ion-item>
           <ion-avatar item-start>
-            <img src="img/avatar-finn.png" style="width: 72px; height: 72px;">
+            <img [src]="detalhePessoaNecessitandoAjuda.avatar" style="width: 72px; height: 72px;">
           </ion-avatar>
-          <h2>Cher</h2>
-          <p>Ugh. As if.</p>
-          <ion-icon name="pin" color="green" item-end></ion-icon>
+          <h2>{{detalhePessoaNecessitandoAjuda.name}}</h2>
+          <p>{{detalhePessoaNecessitandoAjuda.deficiencia}}</p>
+          <ion-icon name="pin" item-end></ion-icon>
         </ion-item>
         <ion-item>
           <h2>De</h2>
-          <p>Lorem, ipsum dolor, 95</p>
+          <p>{{detalhePessoaNecessitandoAjuda.}}</p>
         </ion-item>
         <ion-item>
           <h2>Até</h2>
-          <p>Lorem ipsum dolor sit, 48</p>
+          <p>{{detalhePessoaNecessitandoAjuda.}}</p>
         </ion-item>
         <ion-item>
           <h2>Informações</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, nisi.</p>
+          <p>{{detalhePessoaNecessitandoAjuda.}}</p>
         </ion-item>
       </ion-list>
       <button ion-button secondary round large style="min-width: 210px; margin-bottom: 20px;">Ajudar!!!</button>
