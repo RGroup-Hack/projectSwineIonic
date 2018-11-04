@@ -145,16 +145,33 @@ export class HomePage {
 		});
 	}
 
+	private contadorQueroAjudar = 0;
 	receiveListOfPeoples() {
 		this.socket.on(`${this.socketEvents.findPeople}${this.posFix}`, data => {	
 			if(data){
 				this.pessoasProximasNecessitandoDeAjuda = data;
+				console.log(data)
+			} else {
+				this.pessoasProximasNecessitandoDeAjuda = [];
 			}
+
+			if(this.contadorQueroAjudar < 10) {
+				setTimeout( () => {
+					this.eventsQueroAjudar();
+				}, 3000);
+			} else {
+				this.contadorQueroAjudar = 0;
+			}
+		
 		});
 	}
 
 	queroAjudar() {
 		this.openSocket();
+		
+	}
+
+	private eventsQueroAjudar() {
 		this.receiveListOfPeoples();
 		this.getListOfPeopleToAssist();
 		this.stateControl.setState("queroAjudar")
