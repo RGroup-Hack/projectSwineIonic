@@ -58,7 +58,7 @@
             <img [src]="pessoa.avatar"> <!-- URL -->
             <!-- <img src="pessoa.avatar"> base64 -->
           </ion-avatar>
-          <h2>{{pessoa.name}}</h2>
+          <h2>{{pessoa.idAjudado}}</h2>
           <p>{{pessoa.deficiencia}}</p>
           <ion-icon name="pin" item-end></ion-icon>
         </ion-item>
@@ -73,7 +73,7 @@
           <ion-avatar item-start>
             <img [src]="detalhePessoaNecessitandoAjuda.avatar" style="width: 72px; height: 72px;">
           </ion-avatar>
-          <h2>{{detalhePessoaNecessitandoAjuda.name}}</h2>
+          <h2>{{detalhePessoaNecessitandoAjuda.idAjudado}}</h2>
           <p>{{detalhePessoaNecessitandoAjuda.deficiencia}}</p>
           <ion-icon name="pin" item-end></ion-icon>
         </ion-item>
@@ -111,7 +111,40 @@
               <ion-icon name="text" style="font-size: 24px;"></ion-icon>
             </ion-row>
             <ion-row style="justify-content: center;">
-              <p>Menssagem</p>
+              <p>Mensagem</p>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row style="justify-content: center;">
+              <ion-icon name="navigate" style="font-size: 24px;"></ion-icon>
+            </ion-row>
+            <ion-row style="justify-content: center;">
+              <p>Rota</p>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
+  <div *ngIf="stateControl.isCardOpcoesAjudado" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
+    <div style="margin-bottom: 0; border-radius: 8px 8px 0px 0px; background-color: white; padding-top: 10px;">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-row style="justify-content: center;">
+              <ion-icon name="call" style="font-size: 24px;"></ion-icon>
+            </ion-row>
+            <ion-row style="justify-content: center;">
+              <p>Ligar</p>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row style="justify-content: center;">
+              <ion-icon name="text" style="font-size: 24px;"></ion-icon>
+            </ion-row>
+            <ion-row style="justify-content: center;">
+              <p>Mensagem</p>
             </ion-row>
           </ion-col>
           <ion-col>

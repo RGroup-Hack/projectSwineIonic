@@ -1,38 +1,43 @@
 export class StateControl {
     private botoesIniciais: Boolean;
-    public get isBotoesIniciais() : Boolean
-    {
+    public get isBotoesIniciais(): Boolean {
         return this.botoesIniciais;
     }
 
     private criarAjuda: Boolean;
-    public get isCriarAjuda() : Boolean
-    {
+    public get isCriarAjuda(): Boolean {
         return this.criarAjuda;
     }
-    
+
     private cardListaPessoas: Boolean;
-    public get isCardListaPessoas() : Boolean {
+    public get isCardListaPessoas(): Boolean {
         return this.cardListaPessoas;
     }
-    
+
     private cardDetalhePessoa: Boolean;
-    public get isCardDetalhePessoa() : Boolean {
+    public get isCardDetalhePessoa(): Boolean {
         return this.cardDetalhePessoa;
     }
-    
+
     private cardOpcoesAjudante: Boolean;
-    public get isCardOpcoesAjudante() : Boolean {
+    public get isCardOpcoesAjudante(): Boolean {
         return this.cardOpcoesAjudante;
     }
-    
+
+    private cardOpcoesAjudado: Boolean;
+    public get isCardOpcoesAjudado(): Boolean {
+        return this.cardOpcoesAjudado;
+    }
+
 
     constructor() {
         this.botoesIniciais = true;
         this.cardListaPessoas = false;
         this.cardDetalhePessoa = false;
         this.cardOpcoesAjudante = false;
+        this.cardOpcoesAjudado = false;
         this.criarAjuda = false;
+
     }
 
     setState(state: String) {
@@ -42,6 +47,7 @@ export class StateControl {
                 this.cardListaPessoas = true;
                 this.cardDetalhePessoa = false;
                 this.cardOpcoesAjudante = false;
+                this.cardOpcoesAjudado = false;
                 this.criarAjuda = false;
                 break;
             case "detalheAjuda":
@@ -49,6 +55,7 @@ export class StateControl {
                 this.cardListaPessoas = false;
                 this.cardDetalhePessoa = true;
                 this.cardOpcoesAjudante = false;
+                this.cardOpcoesAjudado = false;
                 this.criarAjuda = false;
                 break;
             case "criarAjuda":
@@ -56,9 +63,10 @@ export class StateControl {
                 this.cardListaPessoas = false;
                 this.cardDetalhePessoa = false;
                 this.cardOpcoesAjudante = false;
+                this.cardOpcoesAjudado = false;
                 this.criarAjuda = true;
                 break;
-                
+
             default:
                 this.botoesIniciais = true;
                 this.cardListaPessoas = false;
