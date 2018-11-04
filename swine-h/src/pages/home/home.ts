@@ -32,6 +32,7 @@ export class HomePage {
 	stateControl: StateControl;
 	
 	public formDePara =  {
+		name:"Jéssica Castro",
 		origem: {
 			address: "",
 			lat: 0,
@@ -89,6 +90,7 @@ export class HomePage {
 
 
 	sendRequestAssist() {
+		this.formDePara.name = "Jéssica Araujo";
 		this.socket.emit(this.socketEvents.requestAssist, this.formDePara, (data) => {
 			this.receiverAssist();
 			this.startingEmitLocation()
@@ -168,10 +170,12 @@ export class HomePage {
 
 	//List Peoples for Assist
 	getListOfPeopleToAssist() {
-		this.socket.emit(this.socketEvents.findPeople, {
-			name: "Helena Dutra",
-			position: this.getCurrentLocation()
-		});
+		this.getCurrentLocation().then(data => {
+			this.socket.emit(this.socketEvents.findPeople, {
+				name: "Helena Dutra",
+				position: data
+			});
+		})
 	}
 
 	private contadorQueroAjudar = 0;
@@ -186,6 +190,7 @@ export class HomePage {
 			}
 
 			if(this.contadorQueroAjudar < 10) {
+				this.contadorQueroAjudar++;
 				setTimeout( () => {
 					this.eventsQueroAjudar();
 				}, 3000);
