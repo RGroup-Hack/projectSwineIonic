@@ -28,6 +28,13 @@ export class HomePage {
 	pessoasProximasNecessitandoDeAjuda:Array<Object> ;
 
 	stateControl: StateControl;
+	
+	formDePara: {
+		de: "",
+		para: "",
+		informacoes: ""
+	}
+
 
 	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation, public http: HTTP) { 
 		this.pessoasProximasNecessitandoDeAjuda = [];
