@@ -30,7 +30,7 @@ export class StateControl {
 
     setState(state: String) {
         switch (state) {
-            case "":
+            case "queroAjudar":
                 this.botoesIniciais = false;
                 this.cardListaPessoas = true;
                 this.cardDetalhePessoa = false;

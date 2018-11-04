@@ -157,6 +157,7 @@ export class HomePage {
 		this.openSocket();
 		this.receiveListOfPeoples();
 		this.getListOfPeopleToAssist();
+		this.stateControl.setState("queroAjudar")
 	}
 
 }
