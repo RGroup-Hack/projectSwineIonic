@@ -30,9 +30,22 @@ export class HomePage {
 
 	stateControl: StateControl;
 
+	formDePara = {
+		origem: {},
+		destino: {},
+		info: ""
+	}
+
+	private mapURL = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyD1uDuJo8_qV0zPNZLqizEDGUcRpYGRNTc";
+
 	constructor(public navCtrl: NavController, public socket: Socket, public geo: Geolocation, public http: HTTP) { 
 		this.pessoasProximasNecessitandoDeAjuda = [];
 		this.stateControl = new StateControl();
+	}
+
+	createAssist() {
+		// set object formDePara
+		this.stateControl.setState("criarAjuda");
 	}
 
 	requestAssist() {

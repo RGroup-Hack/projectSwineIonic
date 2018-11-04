@@ -12,20 +12,38 @@
   <!-- <iframe style="z-index: 0; border: none;" width="100%" height="100%" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyD1uDuJo8_qV0zPNZLqizEDGUcRpYGRNTc&origin=Oslo+Norway&destination=Telemark+Norway"></iframe> -->
 
   <div *ngIf="stateControl.isBotoesIniciais" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%;">
-    <button ion-button secondary round large (click)="queroAjudar()" style="min-width: 210px; margin-bottom: 20px;">Quero Ajudar</button>
-    <button ion-button secondary round large (click)="requestAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
+    <button ion-button secondary round large (click)="queroAjudar()" style="min-width: 210px; margin-bottom: 20px;">Quero
+      Ajudar</button>
+    <button ion-button secondary round large (click)="createAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
       de Ajuda!</button>
   </div>
 
-  <div style="height: 100%; width: 100%; background: #00BCD4;">
-    <label>De</label>
-    <input type="text" value="" >
-    <label>Até</label>
-    <input >
-    <label>Informações</label>
-    <textarea></textarea>
-    <button ion-button secondary round large (click)="requestAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
-        de Ajuda!</button>
+  <div *ngIf="stateControl.isCriarAjuda" style="position: absolute; top: 0; left: 0; z-index: 10; height: 100%; width: 100%; background: #00BCD4;">
+    <ion-grid>
+      <ion-row style="justify-content: center;">
+        <ion-label style="color: white;">De</ion-label>
+      </ion-row>
+      <ion-row style="justify-content: center;">
+        <ion-input type="text" [(ngModel)]="formDePara.origem.address" style="background-color: white; border-radius: 8px; color: #000;"></ion-input>
+      </ion-row>
+      <ion-row style="justify-content: center;">
+        <ion-label style="color: white;">Até</ion-label>
+      </ion-row>
+      <ion-row style="justify-content: center;">
+        <ion-input type="text" [(ngModel)]="formDePara.destino.address" style="background-color: white; border-radius: 8px; color: #000;"></ion-input>
+      </ion-row>
+      <ion-row style="justify-content: center;">
+        <ion-label style="color: white;">Informações</ion-label>
+      </ion-row>
+      <ion-row style="justify-content: center;">
+        <textarea [(ngModel)]="formDePara.info" rows="4" style="width: 100%; background-color: white; border-radius: 8px; color: #000; padding: 13px 8px;"></textarea>
+      </ion-row>
+      <ion-row style="justify-content: center;">
+        <button ion-button secondary round large (click)="requestAssist()" style="min-width: 210px; margin-bottom: 40px;">Preciso
+          de Ajuda!</button>
+      </ion-row>
+    </ion-grid>
+
   </div>
 
   <div *ngIf="stateControl.isCardListaPessoas" style="position: absolute;bottom: 0;text-align: center;left: 0; width: 100%; padding: 0px 12px;">
@@ -35,7 +53,7 @@
           <p>Pesquisando...</p>
         </ion-item>
 
-        <ion-item *ngFor="let pessoa in pessoasProximasNecessitandoDeAjuda" (click)="">
+        <ion-item *ngFor="let pessoa of pessoasProximasNecessitandoDeAjuda">
           <ion-avatar item-start>
             <img [src]="pessoa.avatar"> <!-- URL -->
             <!-- <img src="pessoa.avatar"> base64 -->
@@ -61,15 +79,15 @@
         </ion-item>
         <ion-item>
           <h2>De</h2>
-          <p>{{detalhePessoaNecessitandoAjuda.}}</p>
+          <p>{{detalhePessoaNecessitandoAjuda.origem.address}}</p>
         </ion-item>
         <ion-item>
           <h2>Até</h2>
-          <p>{{detalhePessoaNecessitandoAjuda.}}</p>
+          <p>{{detalhePessoaNecessitandoAjuda.destino.address}}</p>
         </ion-item>
         <ion-item>
           <h2>Informações</h2>
-          <p>{{detalhePessoaNecessitandoAjuda.}}</p>
+          <p>{{detalhePessoaNecessitandoAjuda.info}}</p>
         </ion-item>
       </ion-list>
       <button ion-button secondary round large style="min-width: 210px; margin-bottom: 20px;">Ajudar!!!</button>
